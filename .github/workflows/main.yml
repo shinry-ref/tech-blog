@@ -23,11 +23,11 @@ jobs:
         # env:
         #     VITE_SUPABASE_URL: ${{secrets.VITE_SUPABASE_URL}}
         #     VITE_SUPABASE_ANON_KEY: ${{secrets.VITE_SUPABASE_ANON_KEY}}
-      - name: Upload dist
+      - name: Upload nextjs
         uses: actions/upload-artifact@v4
         with:
-          name: dist
-          path: ./dist
+          name: nextjs
+          path: .
 
   test:
     name: test
@@ -62,11 +62,11 @@ jobs:
           cache: "npm"
       - name: Install firebase-tools
         run: npm install --save-dev firebase-tools
-      - name: Download dist
+      - name: Download nextjs
         uses: actions/download-artifact@v4
         with:
-          name: dist
-          path: ./dist
+          name: nextjs
+          path: .
       - name: Decode Firebase service account key
         run: |
           echo "${{ secrets.FIREBASE_KEY }}" | base64 -d > ./firebase-key.json
