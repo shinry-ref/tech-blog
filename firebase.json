@@ -1,14 +1,8 @@
 {
   "hosting": {
+    "site": "next-js-study-1ba58",
     "source": ".",
-    "ignore": [
-      "firebase.json",
-      "**/.*",
-      "**/node_modules/**"
-    ],
-    "frameworksBackend": {
-      "region": "asia-east1"
-    }
+    "ignore": ["firebase.json", "**/.*", "**/node_modules/**"]
   },
   "frameworksBackend": {
     "region": "asia-east1",
