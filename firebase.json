@@ -1,6 +1,6 @@
 {
   "hosting": {
-    "site": "next-js-study-1ba58",
+    "site": "next-js-study-1ba58-6a46e",
     "source": ".",
     "ignore": ["firebase.json", "**/.*", "**/node_modules/**"]
   },
