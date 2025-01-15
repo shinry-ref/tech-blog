@@ -1,14 +1,13 @@
-"use client";
+'use client';
 
-import { useEffect, useState } from "react";
-import { GrFormNext } from "react-icons/gr";
-import { QiitaBlog } from "./types/qiitaBlog";
+import React, { useEffect, useState } from "react";
+import { QiitaBlog } from "../types/qiitaBlog";
 
-export default function Page() {
+const page = () => {
   const [qiitaItems, setQiitaItems] = useState<QiitaBlog[]>([]);
 
   useEffect(() => {
-    getQiita(4);
+    getQiita(68);
   }, []);
 
   const getQiita = async (page: number) => {
@@ -51,11 +50,8 @@ export default function Page() {
           </div>
         ))}
       </div>
-      <div className="flex justify-end w-full p-4">
-        <a href="/blogs" className="btn btn-primary">
-          もっと見る <GrFormNext />
-        </a>
-      </div>
     </div>
   );
-}
+};
+
+export default page;
