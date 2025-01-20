@@ -1,46 +1,60 @@
-"use client";
+// "use client";
 
-import { useEffect, useState } from "react";
+// import { useEffect } from "react";
 import { GrFormNext } from "react-icons/gr";
 import { QiitaBlog } from "./types/qiitaBlog";
 import { client } from "./utils/client";
 import { MicroCMS } from "./types/microCMS";
+import { get } from "http";
 
-export default function Page() {
-  const [qiitaItems, setQiitaItems] = useState<QiitaBlog[]>([]);
-  const [microCMSItems, setMicroCMSItems] = useState<MicroCMS[]>([]);
+type Props = {
+  qiitaItems: QiitaBlog[];
+  microCMSItems: MicroCMS[];
+};
 
-  useEffect(() => {
-    getQiita(4);
-    getMicroCMS();
-  }, []);
+export default async function Page({ qiitaItems, microCMSItems }: Props) {
+  // const [qiitaItems, setQiitaItems] = useState<QiitaBlog[]>([]);
+  // const [microCMSItems, setMicroCMSItems] = useState<MicroCMS[]>([]);
+
+  // useEffect(() => {
+  //   getQiita(4);
+  //   getMicroCMS(4);
+  // }, []);
 
   const getQiita = async (page: number) => {
-    const res = await fetch("api/qiita", {
+    const res = await fetch(`${process.env.API_URL}/api/qiita`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({ page }),
     });
-    setQiitaItems(await res.json());
+    // setQiitaItems(await res.json());
+    return res.json();
   };
 
-  const getMicroCMS = async () => {
+  const getMicroCMS = async (limit: number) => {
     const res = await client.get({
       endpoint: "blogs",
+      queries: {
+        limit: limit,
+      }
     });
-    console.log(res);
-    setMicroCMSItems(res.contents);
+    // setMicroCMSItems(res.contents);
+    return res.contents;
   }
 
+  qiitaItems = await getQiita(4);
+  microCMSItems = await getMicroCMS(4);
 
   return (
     <div className="bg-gray-100 min-h-screen flex flex-col justify-center items-center">
-      <div className="container mx-auto p-4 bg-white rounded-lg mb-4">
+      <h1 className="text-2xl text-white p-4 w-full bg-slate-500">Tech Blog</h1>
+      <div className="container mx-auto p-4 bg-white rounded-lg m-4">
+        <h1 className="text-4xl font-bold px-4">個人記事</h1>
         <div className="grid grid-cols-4 gap-4">
           {qiitaItems.map((item) => (
-            <div className="flex justify-center m-4" key={item.url}>
+            <div className="flex justify-center m-4" key={item.id}>
               <div className="card bg-base-100 max-w-96 shadow-xl">
                 <figure>
                   <img
@@ -66,16 +80,17 @@ export default function Page() {
           ))}
         </div>
         <div className="flex justify-end w-full p-4">
-          <a href="/blogs" className="btn btn-primary">
+          <a href="/qiitaBlogs" className="btn btn-primary">
             もっと見る <GrFormNext />
           </a>
         </div>
       </div>
 
-      <div className="container mx-auto p-4 bg-white rounded-lg">
+      <div className="container mx-auto p-4 bg-white rounded-lg m-4">
+        <h1 className="text-4xl font-bold px-4">ブログ記事</h1>
         <div className="grid grid-cols-4 gap-4">
           {microCMSItems.map((item) => (
-            <div className="flex justify-center m-4" key={item.url}>
+            <div className="flex justify-center m-4" key={item.id}>
               <div className="card bg-base-100 max-w-96 shadow-xl">
                 <figure>
                   <img
@@ -87,10 +102,8 @@ export default function Page() {
                   <h2 className="card-title">{item.title}</h2>
                   <div className="card-actions justify-end">
                     <a
-                      href={item.url}
+                      href={`blogs/${item.id}`}
                       className="btn btn-primary"
-                      target="_blank"
-                      rel="noopener noreferrer"
                     >
                       記事を見る
                     </a>
