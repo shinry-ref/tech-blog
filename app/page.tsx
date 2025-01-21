@@ -2,17 +2,11 @@
 
 // import { useEffect } from "react";
 import { GrFormNext } from "react-icons/gr";
-import { QiitaBlog } from "./types/qiitaBlog";
 import { client } from "./utils/client";
+import { QiitaBlog } from "./types/qiitaBlog";
 import { MicroCMS } from "./types/microCMS";
-import { get } from "http";
 
-type Props = {
-  qiitaItems: QiitaBlog[];
-  microCMSItems: MicroCMS[];
-};
-
-export default async function Page({ qiitaItems, microCMSItems }: Props) {
+export default async function Page() {
   // const [qiitaItems, setQiitaItems] = useState<QiitaBlog[]>([]);
   // const [microCMSItems, setMicroCMSItems] = useState<MicroCMS[]>([]);
 
@@ -21,7 +15,7 @@ export default async function Page({ qiitaItems, microCMSItems }: Props) {
   //   getMicroCMS(4);
   // }, []);
 
-  const getQiita = async (page: number) => {
+  const getQiita = async (page: number):Promise<QiitaBlog[]> => {
     const res = await fetch(`${process.env.API_URL}/api/qiita`, {
       method: "POST",
       headers: {
@@ -33,7 +27,7 @@ export default async function Page({ qiitaItems, microCMSItems }: Props) {
     return res.json();
   };
 
-  const getMicroCMS = async (limit: number) => {
+  const getMicroCMS = async (limit: number):Promise<MicroCMS[]> => {
     const res = await client.get({
       endpoint: "blogs",
       queries: {
@@ -44,8 +38,8 @@ export default async function Page({ qiitaItems, microCMSItems }: Props) {
     return res.contents;
   }
 
-  qiitaItems = await getQiita(4);
-  microCMSItems = await getMicroCMS(4);
+  const qiitaItems = await getQiita(4);
+  const microCMSItems = await getMicroCMS(4);
 
   return (
     <div className="bg-gray-100 min-h-screen flex flex-col justify-center items-center">

@@ -3,14 +3,14 @@
 import React from "react";
 import { QiitaBlog } from "../types/qiitaBlog";
 
-const page = async ({ qiitaItems }: { qiitaItems: QiitaBlog[] }) => {
+const page = async () => {
   // const [qiitaItems, setQiitaItems] = useState<QiitaBlog[]>([]);
 
   // useEffect(() => {
   //   getQiita(20);
   // }, []);
 
-  const getQiita = async (page: number) => {
+  const getQiita = async (page: number):Promise<QiitaBlog[]> => {
     const res = await fetch(`${process.env.API_URL}/api/qiita`, {
       method: "POST",
       headers: {
@@ -22,7 +22,7 @@ const page = async ({ qiitaItems }: { qiitaItems: QiitaBlog[] }) => {
     return res.json();
   };
 
-  qiitaItems = await getQiita(20);
+  const qiitaItems = await getQiita(20);
 
   return (
     <div className="bg-gray-100 min-h-screen flex justify-center items-center flex-col">

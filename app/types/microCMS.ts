@@ -4,6 +4,7 @@ export class MicroCMS {
     public title: string,
     public date: string,
     public url: string,
-    public thumbnail: { url: string }
+    public thumbnail: { url: string },
+    public body: string
   ) {}
 }
