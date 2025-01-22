@@ -92,6 +92,10 @@ jobs:
         env:
           FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
           FIREBASE_CLI_EXPERIMENTS: webframeworks
+          NEXT_PUBLIC_SERVICE_DOMAIN: ${{secrets.NEXT_PUBLIC_SERVICE_DOMAIN}}
+          NEXT_PUBLIC_API_KEY: ${{secrets.NEXT_PUBLIC_API_KEY}}
+          NEXT_PUBLIC_API_URL: ${{secrets.NEXT_PUBLIC_API_URL}}
+          NEXT_PUBLIC_QIITA_API_TOKEN: ${{secrets.NEXT_PUBLIC_QIITA_API_TOKEN}}
       - name: delete GOOGLE_APPLICATION_CREDENTIALS
         run: rm $GOOGLE_APPLICATION_CREDENTIALS
         if: ${{ always() }}
