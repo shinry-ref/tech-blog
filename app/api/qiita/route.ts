@@ -1,14 +1,13 @@
-import { NextApiResponse } from "next";
 import { NextResponse } from "next/server";
 
-export async function POST(req: Request, res: NextApiResponse) {
+export async function POST(req: Request) {
   const { page } = await req.json();
 
   const response = await fetch(
     `https://qiita.com/api/v2/authenticated_user/items?page=1&per_page=${page}`,
     {
       headers: {
-        Authorization: "Bearer b014cdf5c3ff452642b8410f51b810d5d01b783a",
+        Authorization: `Bearer ${process.env.NEXT_PUBLIC_QIITA_API_TOKEN}`,
       },
     }
   );

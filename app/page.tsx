@@ -6,6 +6,9 @@ import { client } from "./utils/client";
 import { QiitaBlog } from "./types/qiitaBlog";
 import { MicroCMS } from "./types/microCMS";
 
+export const dynamic = "force-dynamic";
+export const fetchCache = "force-no-store";
+
 export default async function Page() {
   // const [qiitaItems, setQiitaItems] = useState<QiitaBlog[]>([]);
   // const [microCMSItems, setMicroCMSItems] = useState<MicroCMS[]>([]);
@@ -15,31 +18,23 @@ export default async function Page() {
   //   getMicroCMS(4);
   // }, []);
 
-  const getQiita = async (page: number):Promise<QiitaBlog[]> => {
-    const res = await fetch(`${process.env.API_URL}/api/qiita`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ page }),
-    });
-    // setQiitaItems(await res.json());
-    return res.json();
-  };
+  const qiitaRes = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/qiita`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ page: 4 }),
+  });
+  const qiitaItems: QiitaBlog[] = await qiitaRes.json();
 
-  const getMicroCMS = async (limit: number):Promise<MicroCMS[]> => {
-    const res = await client.get({
-      endpoint: "blogs",
-      queries: {
-        limit: limit,
-      }
-    });
-    // setMicroCMSItems(res.contents);
-    return res.contents;
-  }
+  const cmsRes = await client.get({
+    endpoint: "blogs",
+    queries: {
+      limit: 4,
+    },
+  });
 
-  const qiitaItems = await getQiita(4);
-  const microCMSItems = await getMicroCMS(4);
+  const microCMSItems: MicroCMS[] = cmsRes.contents;
 
   return (
     <div className="bg-gray-100 min-h-screen flex flex-col justify-center items-center">
@@ -87,18 +82,12 @@ export default async function Page() {
             <div className="flex justify-center m-4" key={item.id}>
               <div className="card bg-base-100 max-w-96 shadow-xl">
                 <figure>
-                  <img
-                    src={item.thumbnail.url}
-                    alt={item.title}
-                  />
+                  <img src={item.thumbnail.url} alt={item.title} />
                 </figure>
                 <div className="card-body">
                   <h2 className="card-title">{item.title}</h2>
                   <div className="card-actions justify-end">
-                    <a
-                      href={`blogs/${item.id}`}
-                      className="btn btn-primary"
-                    >
+                    <a href={`blogs/${item.id}`} className="btn btn-primary">
                       記事を見る
                     </a>
                   </div>

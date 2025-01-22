@@ -2,19 +2,23 @@ import React from "react";
 import { client } from "../../utils/client";
 import { MicroCMS } from "../../types/microCMS";
 
-export default async function Page({ params }: { params: { id: string } }) {
+export const dynamic = "force-dynamic";
+export const fetchCache = "force-no-store";
+
+export default async function Page({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) {
   const { id } = await params;
 
-  const getMicroCMS = async (): Promise<MicroCMS[]> => {
-    const res = await client.get({
-      endpoint: "blogs",
-      queries: { ids: id },
-    });
-    // setMicroCMSItems(res.contents);
-    return res.contents;
-  };
+  const res = await client.get({
+    endpoint: "blogs",
+    queries: { ids: id },
+  });
+  // setMicroCMSItems(res.contents);
+  const microCMSItem: MicroCMS[] = res.contents;
 
-  const microCMSItem = await getMicroCMS();
   return (
     <div>
       <div className="bg-gray-100 min-h-screen flex justify-center items-center flex-col">
@@ -34,9 +38,11 @@ export default async function Page({ params }: { params: { id: string } }) {
                   <h2 className="text-2xl font-bold text-center">
                     {item.title}
                     <span className="ml-4">
-                      （{item.date &&
+                      （
+                      {item.date &&
                         new Date(item.date).toLocaleDateString("ja-JP")}
-                    </span>）
+                    </span>
+                    ）
                   </h2>
                 </div>
                 <div className="text-lg font-medium mt-6 mb-4">

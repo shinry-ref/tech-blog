@@ -4,25 +4,24 @@ import React from "react";
 import { MicroCMS } from "../types/microCMS";
 import { client } from "../utils/client";
 
-const page = async ({ microCMSItems }: { microCMSItems: MicroCMS[] }) => {
+export const dynamic = "force-dynamic";
+export const fetchCache = "force-no-store";
+
+const page = async () => {
   // const [microCMSItems, setMicroCMSItems] = useState<MicroCMS[]>([]);
 
   // useEffect(() => {
   //   getMicroCMS(5);
   // }, []);
 
-  const getMicroCMS = async (limit: number) => {
-    const res = await client.get({
-      endpoint: "blogs",
-      queries: {
-        limit: limit,
-      },
-    });
-    // setMicroCMSItems(res.contents);
-    return res.contents;
-  };
-
-  microCMSItems = await getMicroCMS(5);
+  const res = await client.get({
+    endpoint: "blogs",
+    queries: {
+      limit: 5,
+    },
+  });
+  // setMicroCMSItems(res.contents);
+  const microCMSItems: MicroCMS[] = res.contents;
 
   return (
     <div className="bg-gray-100 min-h-screen flex justify-center items-center flex-col">
