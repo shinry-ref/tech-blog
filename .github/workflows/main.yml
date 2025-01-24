@@ -73,13 +73,13 @@ jobs:
       #     path: ./
       - name: Install dependencies
         run: npm ci
-      # - name: Run build
-      #   run: npm run build
-      #   env:
-      #     NEXT_PUBLIC_SERVICE_DOMAIN: ${{secrets.NEXT_PUBLIC_SERVICE_DOMAIN}}
-      #     NEXT_PUBLIC_API_KEY: ${{secrets.NEXT_PUBLIC_API_KEY}}
-      #     NEXT_PUBLIC_API_URL: ${{secrets.NEXT_PUBLIC_API_URL}}
-      #     NEXT_PUBLIC_QIITA_API_TOKEN: ${{secrets.NEXT_PUBLIC_QIITA_API_TOKEN}}
+      - name: Run build
+        run: npm run build
+        env:
+          NEXT_PUBLIC_SERVICE_DOMAIN: ${{secrets.NEXT_PUBLIC_SERVICE_DOMAIN}}
+          NEXT_PUBLIC_API_KEY: ${{secrets.NEXT_PUBLIC_API_KEY}}
+          NEXT_PUBLIC_API_URL: ${{secrets.NEXT_PUBLIC_API_URL}}
+          NEXT_PUBLIC_QIITA_API_TOKEN: ${{secrets.NEXT_PUBLIC_QIITA_API_TOKEN}}
       - name: Decode Firebase service account key
         run: |
           echo "${{ secrets.FIREBASE_KEY }}" | base64 -d > ./firebase-key.json
