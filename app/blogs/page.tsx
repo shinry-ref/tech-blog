@@ -1,18 +1,12 @@
-// "use client";
-
 import React from "react";
 import { MicroCMS } from "../types/microCMS";
 import { client } from "../utils/client";
+import MicroCmsCard from "../components/MicroCmsCard";
 
 export const dynamic = "force-dynamic";
 export const fetchCache = "force-no-store";
 
 const page = async () => {
-  // const [microCMSItems, setMicroCMSItems] = useState<MicroCMS[]>([]);
-
-  // useEffect(() => {
-  //   getMicroCMS(5);
-  // }, []);
 
   const res = await client.get({
     endpoint: "blogs",
@@ -20,7 +14,6 @@ const page = async () => {
       limit: 5,
     },
   });
-  // setMicroCMSItems(res.contents);
   const microCMSItems: MicroCMS[] = res.contents;
 
   return (
@@ -34,21 +27,7 @@ const page = async () => {
         <h1 className="text-4xl font-bold px-4">ブログ記事一覧</h1>
         <div className="grid grid-cols-4 gap-4">
           {microCMSItems.map((item) => (
-            <div className="flex justify-center m-4" key={item.id}>
-              <div className="card bg-base-100 max-w-96 shadow-xl">
-                <figure>
-                  <img src={item.thumbnail.url} alt={item.title} />
-                </figure>
-                <div className="card-body">
-                  <h2 className="card-title">{item.title}</h2>
-                  <div className="card-actions justify-end">
-                    <a href={`blogs/${item.id}`} className="btn btn-primary">
-                      記事を見る
-                    </a>
-                  </div>
-                </div>
-              </div>
-            </div>
+            <MicroCmsCard key={item.id} item={item} />
           ))}
         </div>
       </div>
