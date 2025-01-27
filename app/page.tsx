@@ -1,6 +1,3 @@
-// "use client";
-
-// import { useEffect } from "react";
 import { GrFormNext } from "react-icons/gr";
 import { client } from "./utils/client";
 import { QiitaBlog } from "./types/qiitaBlog";
@@ -10,13 +7,6 @@ export const dynamic = "force-dynamic";
 export const fetchCache = "force-no-store";
 
 export default async function Page() {
-  // const [qiitaItems, setQiitaItems] = useState<QiitaBlog[]>([]);
-  // const [microCMSItems, setMicroCMSItems] = useState<MicroCMS[]>([]);
-
-  // useEffect(() => {
-  //   getQiita(4);
-  //   getMicroCMS(4);
-  // }, []);
 
   const qiitaRes = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/qiita`, {
     method: "POST",

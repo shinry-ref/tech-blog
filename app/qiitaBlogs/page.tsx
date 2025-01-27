@@ -1,5 +1,3 @@
-// "use client";
-
 import React from "react";
 import { QiitaBlog } from "../types/qiitaBlog";
 
@@ -7,12 +5,6 @@ export const dynamic = "force-dynamic";
 export const fetchCache = "force-no-store";
 
 const page = async () => {
-  // const [qiitaItems, setQiitaItems] = useState<QiitaBlog[]>([]);
-
-  // useEffect(() => {
-  //   getQiita(20);
-  // }, []);
-
 
   const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/qiita`, {
     method: "POST",
